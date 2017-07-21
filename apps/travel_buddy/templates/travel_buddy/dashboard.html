@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>Travel Dashboard</title>
+</head>
+<body>
+    <div class="row">
+        <div class='col-md-8'>
+            <h3>Hello, {{user.user_name}}!</h3> 
+        </div>
+        <div class='col-md-4 align-bottom'>
+            {% include 'travel_buddy/snippets/header_nav.html' %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Your Trip Schedules</h1>
+            <table class='table table-bordered'>
+                <thead>
+                    <th>Destination</th>
+                    <th>Travel Start Date</th>
+                    <th>Travel End Date</th>
+                    <th>Plan</th>
+                </thead>
+                <tbody>
+                    {% for trip in user_trips %}
+                    <tr>
+                        <td><a href='{% url 'destination' trip_id=trip.id %}'>{{trip.destination}}</a></td>
+                        <td>{{trip.start_date}}</td>
+                        <td>{{trip.end_date}}</td>
+                        <td>{{trip.description}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <h1>Other User's Travel Plans</h1>
+            <table class='table table-bordered'>
+                <thead>
+                    <th>Name</th>
+                    <th>Destination</th>
+                    <th>Travel Start Date</th>
+                    <th>Travel End Date</th>
+                    <th>Do You Want to Join?</th>
+                </thead>
+                <tbody>
+                    {% for trip in other_trips %}
+                    <tr>
+                        <td>{{trip.creator.name}}</td>
+                        <td><a href='{% url 'destination' trip_id=trip.id %}'>{{trip.destination}}</a></td>
+                        <td>{{trip.start_date}}</td>
+                        <td>{{trip.end_date}}</td>
+                        <td><a href='{% url 'join' trip_id=trip.id %}'>Join</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10"></div>
+        <div class="col-md-2">
+            <a href='{% url 'add' %}'>Add Travel Plans</a>
+        </div>
+    </div>
+</body>
+</html>
